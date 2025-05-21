@@ -3,27 +3,39 @@ import axios from 'axios';
 
 function Dashboard() {
   const [apps, setApps] = useState([]);
+  const [error, setError] = useState('');
+  const backendUrl = 'http://172.83.14.144:3001/api/apps'; // Endpoint aplikasi backend
+
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!token) {
-      window.location.href = '/';
-      return;
-    }
-    axios.get('http://172.83.14.144:3001/api/apps', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => setApps(res.data))
-    .catch(() => alert('Gagal mengambil data aplikasi'));
+    if (!token) return;
+
+    axios
+      .get(backendUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setApps(res.data))
+      .catch(() => setError('Gagal mengambil data aplikasi'));
   }, [token]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
+
   return (
-    <div style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-      <h2>Dashboard Admin</h2>
+    <div style={{ maxWidth: 800, margin: '20px auto' }}>
+      <h2>Dashboard Admin Panel</h2>
+      <button onClick={handleLogout} style={{ marginBottom: 20 }}>
+        Logout
+      </button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
-        {apps.map(app => (
+        {apps.length === 0 && <li>Tidak ada aplikasi</li>}
+        {apps.map((app) => (
           <li key={app._id}>
-            <strong>{app.name}</strong> - Cookie: {app.cookie.slice(0, 30)}...
+            <strong>{app.name}</strong> - {app.description || '-'}
           </li>
         ))}
       </ul>
