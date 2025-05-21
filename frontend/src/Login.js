@@ -2,40 +2,51 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
 
-  const handleSubmit = async e => {
+  // Backend login URL sesuai IP dan port Anda
+  const backendUrl = 'http://172.83.14.144:3001/api/auth/login';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      const res = await axios.post('http://172.83.14.144:3001/api/auth/login', { username, password });
-      localStorage.setItem('token', res.data.token);
-      window.location.href = '/dashboard';
+      const response = await axios.post(backendUrl, { username, password });
+      localStorage.setItem('token', response.data.token);
+      window.location.href = '/';
     } catch (err) {
       setError(err.response?.data?.message || 'Login gagal');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 300, margin: 'auto', padding: 20 }}>
-      <h2>Login Admin</h2>
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-        style={{ width: '100%', marginBottom: 10, padding: 8 }}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        style={{ width: '100%', marginBottom: 10, padding: 8 }}
-      />
-      <button type="submit" style={{ width: '100%', padding: 10 }}>Login</button>
+    <div style={{ maxWidth: 400, margin: '50px auto', textAlign: 'center' }}>
+      <h2>Login Admin Panel</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={{ width: '100%', padding: 8, marginBottom: 10 }}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{ width: '100%', padding: 8, marginBottom: 10 }}
+        />
+        <button type="submit" style={{ width: '100%', padding: 10 }}>
+          Login
+        </button>
+      </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+    </div>
   );
 }
 
