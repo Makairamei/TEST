@@ -1,24 +1,16 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import * as React from 'react';
+import { Admin, Resource } from 'react-admin';
+import simpleRestProvider from 'ra-data-simple-rest';
+import { UserList } from './users';
+import { AppList } from './apps';
 
-function App() {
-  const isAuthenticated = !!localStorage.getItem('token');
+const dataProvider = simpleRestProvider(process.env.REACT_APP_BACKEND_URL);
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+const App = () => (
+  <Admin dataProvider={dataProvider}>
+    <Resource name="users" list={UserList} />
+    <Resource name="apps" list={AppList} />
+  </Admin>
+);
 
 export default App;
