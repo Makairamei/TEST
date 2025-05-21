@@ -4,7 +4,7 @@ import axios from 'axios';
 function Dashboard() {
   const [apps, setApps] = useState([]);
   const [error, setError] = useState('');
-  const backendUrl = 'http://172.83.14.144:3001/api/apps'; // Endpoint aplikasi backend
+  const backendUrl = process.env.REACT_APP_BACKEND_URL + '/api/apps';
 
   const token = localStorage.getItem('token');
 
@@ -17,7 +17,7 @@ function Dashboard() {
       })
       .then((res) => setApps(res.data))
       .catch(() => setError('Gagal mengambil data aplikasi'));
-  }, [token]);
+  }, [token, backendUrl]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
