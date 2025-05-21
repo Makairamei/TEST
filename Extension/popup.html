@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login & Aplikasi</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 10px; width: 300px; }
+    input, button { width: 100%; margin: 5px 0; padding: 8px; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 5px 0; cursor: pointer; background: #eee; padding: 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h3>Login User</h3>
+  <input id="username" placeholder="Username" />
+  <input id="password" type="password" placeholder="Password" />
+  <button id="loginBtn">Login</button>
+  <p id="status"></p>
+
+  <div id="appSection" style="display:none;">
+    <h3>Aplikasi Anda</h3>
+    <ul id="appList"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
