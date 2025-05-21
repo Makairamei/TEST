@@ -5,35 +5,23 @@ const User = require('./models/User');
 
 async function createAdmin() {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('MongoDB connected');
-
+    await mongoose.connect(process.env.MONGO_URI);
     const username = 'admin';
     const password = 'admin123';
-    const role = 'admin';
 
     const existingAdmin = await User.findOne({ username });
     if (existingAdmin) {
-      console.log('Admin sudah ada di database');
+      console.log('Admin sudah ada');
       process.exit(0);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const adminUser = new User({
-      username,
-      password: hashedPassword,
-      role,
-    });
-
+    const adminUser = new User({ username, password: hashedPassword, role: 'admin' });
     await adminUser.save();
     console.log('Admin berhasil dibuat dengan username: admin dan password: admin123');
     process.exit(0);
-  } catch (error) {
-    console.error('Gagal membuat admin:', error);
+  } catch (err) {
+    console.error(err);
     process.exit(1);
   }
 }
