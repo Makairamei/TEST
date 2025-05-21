@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function Login() {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  // Backend login URL sesuai IP dan port Anda
-  const backendUrl = 'http://172.83.14.144:3001/api/auth/login';
+  const backendUrl = process.env.REACT_APP_BACKEND_URL + '/api/auth/login';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
