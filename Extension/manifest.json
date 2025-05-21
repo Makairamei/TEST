@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Cookie Injector Extension",
+  "version": "1.0",
+  "permissions": ["storage", "cookies", "scripting", "activeTab"],
+  "host_permissions": [
+    "http://172.83.14.144/*",
+    "https://*.target-app-domain.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
