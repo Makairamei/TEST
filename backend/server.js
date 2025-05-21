@@ -20,7 +20,7 @@ app.use('/api/apps', appRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/logs', logRoutes);
 
-// Connect to MongoDB
+// Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
