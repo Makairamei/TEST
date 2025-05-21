@@ -1,16 +1,12 @@
 import * as React from 'react';
-import { Admin, Resource } from 'react-admin';
-import simpleRestProvider from 'ra-data-simple-rest';
-import { UserList } from './users';
-import { AppList } from './apps';
+import { List, Datagrid, TextField, DateField } from 'react-admin';
 
-const dataProvider = simpleRestProvider(process.env.REACT_APP_BACKEND_URL);
-
-const App = () => (
-  <Admin dataProvider={dataProvider}>
-    <Resource name="users" list={UserList} />
-    <Resource name="apps" list={AppList} />
-  </Admin>
+export const AppList = (props) => (
+  <List {...props}>
+    <Datagrid rowClick="edit">
+      <TextField source="name" />
+      <TextField source="description" />
+      <DateField source="createdAt" />
+    </Datagrid>
+  </List>
 );
-
-export default App;
